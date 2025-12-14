@@ -11,3 +11,18 @@ services:
             - .:/app:rw
         environment:
             - APP_ENV=dev
+        depends_on: 
+            - sio_db
+    ##################################################
+    sio_db:
+        image: mysql:8.0
+        container_name: sio_db
+        expose:
+            - "3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: mysql
+            MYSQL_PASSWORD: mysql
+            MYSQL_USER: user
+            MYSQL_DATABASE: sio_db
+        volumes:
+            - ./var/database_volume:/var/lib/mysql
