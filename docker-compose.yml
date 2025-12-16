@@ -17,8 +17,8 @@ services:
     sio_db:
         image: mysql:8.0
         container_name: sio_db
-        expose:
-            - "3306"
+        ports:
+            - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: mysql
             MYSQL_PASSWORD: mysql
