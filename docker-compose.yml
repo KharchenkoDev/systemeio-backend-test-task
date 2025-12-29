@@ -10,9 +10,7 @@ services:
             - "8337:8337"
         volumes:
             - .:/app:rw
-        environment:
-            - APP_ENV=dev
-        depends_on: 
+        depends_on:
             - sio_db
     ##################################################
     sio_db:
