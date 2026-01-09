@@ -9,35 +9,48 @@ use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor;
 class StripePaymentProcessorAdapterTest extends TestCase
 {
     private StripePaymentProcessorAdapter $adapter;
-    private StripePaymentProcessor $stripe;
+    private \ReflectionProperty $processorProperty;
 
     protected function setUp(): void
     {
-        $this->stripe = $this->createMock(StripePaymentProcessor::class);
         $this->adapter = new StripePaymentProcessorAdapter();
+        
+        // Получаем доступ к приватному свойству $processor через рефлексию
+        $reflection = new \ReflectionClass($this->adapter);
+        $this->processorProperty = $reflection->getProperty('processor');
     }
 
     public function testPaySuccess(): void
     {
-        $this->stripe
-            ->expects($this->once())
+        $stripeMock = $this->createMock(StripePaymentProcessor::class);
+        
+        $stripeMock->expects($this->once())
             ->method('processPayment')
             ->with(107.1)
             ->willReturn(true);
-
+        
+        // Подменяем реальный процессор на мок
+        $this->processorProperty->setValue($this->adapter, $stripeMock);
+        
         $this->adapter->pay('107.10');
     }
 
     public function testPayFailure(): void
     {
-        $this->stripe
+        // Создаем мок StripePaymentProcessor
+        $stripeMock = $this->createMock(StripePaymentProcessor::class);
+        
+        $stripeMock->expects($this->once())
             ->method('processPayment')
             ->with(107.1)
             ->willReturn(false);
-
+        
+        // Подменяем реальный процессор на мок
+        $this->processorProperty->setValue($this->adapter, $stripeMock);
+        
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Stripe payment failed');
-
+        
         $this->adapter->pay('107.10');
     }
 

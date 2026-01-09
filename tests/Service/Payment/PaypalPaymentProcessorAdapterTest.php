@@ -9,21 +9,28 @@ use Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor;
 class PaypalPaymentProcessorAdapterTest extends TestCase
 {
     private PaypalPaymentProcessorAdapter $adapter;
-    private PaypalPaymentProcessor $paypal;
+    private \ReflectionProperty $processorProperty;
 
     protected function setUp(): void
     {
-        $this->paypal = $this->createMock(PaypalPaymentProcessor::class);
         $this->adapter = new PaypalPaymentProcessorAdapter();
+        
+        // Получаем доступ к приватному свойству $processor через рефлексию
+        $reflection = new \ReflectionClass($this->adapter);
+        $this->processorProperty = $reflection->getProperty('processor');
     }
 
     public function testPaySuccess(): void
     {
-        $this->paypal
-            ->expects($this->once())
+        $paypalMock = $this->createMock(PaypalPaymentProcessor::class);
+        
+        $paypalMock->expects($this->once())
             ->method('pay')
             ->with(10710); // 107.10 * 100
-
+        
+        // Подменяем реальный процессор на мок
+        $this->processorProperty->setValue($this->adapter, $paypalMock);
+        
         $this->adapter->pay('107.10');
     }
 
@@ -32,4 +39,3 @@ class PaypalPaymentProcessorAdapterTest extends TestCase
         self::assertSame('paypal', PaypalPaymentProcessorAdapter::getName());
     }
 }
-

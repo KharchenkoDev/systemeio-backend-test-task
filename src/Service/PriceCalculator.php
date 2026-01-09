@@ -21,7 +21,7 @@ class PriceCalculator
             $price = $this->applyCoupon($price, $coupon);
         }
 
-        // if $price < 0
+        // if ($price < 0)
         if (\bccomp($price, '0', self::SCALE) === -1) {
             $price = '0';
         }
