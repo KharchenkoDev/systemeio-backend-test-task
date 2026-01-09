@@ -104,7 +104,7 @@ class ValidPaymentProcessorValidatorTest extends TestCase
     {
         $this->expectException(\Symfony\Component\Validator\Exception\UnexpectedTypeException::class);
 
-        $this->validator->validate('paypal', $this->createMock(Constraint::class));
+        $this->validator->validate('paypal', $this->createStub(Constraint::class));
     }
 
     public function testUnexpectedConstraintClass(): void

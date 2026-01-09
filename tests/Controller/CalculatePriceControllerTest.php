@@ -15,12 +15,12 @@ class CalculatePriceControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $priceManager = $this->createMock(PriceManager::class);
+        $priceManager = $this->createStub(PriceManager::class);
         $priceManager
             ->method('calculatePrice')
             ->willReturn('107.10');
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willReturnCallback(function (Request $request, string $dtoClass) {
@@ -55,7 +55,7 @@ class CalculatePriceControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willThrowException(new \Symfony\Component\HttpFoundation\Exception\BadRequestException(

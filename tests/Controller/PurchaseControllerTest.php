@@ -17,7 +17,7 @@ class PurchaseControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $priceManager = $this->createMock(PriceManager::class);
+        $priceManager = $this->createStub(PriceManager::class);
         $priceManager
             ->method('calculatePrice')
             ->willReturn('107.10');
@@ -28,13 +28,13 @@ class PurchaseControllerTest extends WebTestCase
             ->method('pay')
             ->with('107.10');
 
-        $factory = $this->createMock(PaymentProcessorFactory::class);
+        $factory = $this->createStub(PaymentProcessorFactory::class);
         $factory
             ->method('getProcessor')
             ->with('paypal')
             ->willReturn($processor);
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willReturnCallback(function (Request $request, string $dtoClass) {
@@ -73,7 +73,7 @@ class PurchaseControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willThrowException(new \Symfony\Component\HttpFoundation\Exception\BadRequestException(
@@ -105,12 +105,12 @@ class PurchaseControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $priceManager = $this->createMock(PriceManager::class);
+        $priceManager = $this->createStub(PriceManager::class);
         $priceManager
             ->method('calculatePrice')
             ->willThrowException(new \App\Exception\BusinessValidationException('product', 'Product not found'));
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willReturnCallback(function (Request $request, string $dtoClass) {
@@ -147,18 +147,18 @@ class PurchaseControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $priceManager = $this->createMock(PriceManager::class);
+        $priceManager = $this->createStub(PriceManager::class);
         $priceManager
             ->method('calculatePrice')
             ->willReturn('107.10');
 
-        $factory = $this->createMock(PaymentProcessorFactory::class);
+        $factory = $this->createStub(PaymentProcessorFactory::class);
         $factory
             ->method('getProcessor')
             ->with('unknown')
             ->willThrowException(new \InvalidArgumentException('Unknown payment processor: unknown'));
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willReturnCallback(function (Request $request, string $dtoClass) {
@@ -195,23 +195,23 @@ class PurchaseControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $priceManager = $this->createMock(PriceManager::class);
+        $priceManager = $this->createStub(PriceManager::class);
         $priceManager
             ->method('calculatePrice')
             ->willReturn('107.10');
 
-        $processor = $this->createMock(\App\Service\Payment\PaymentProcessorInterface::class);
+        $processor = $this->createStub(\App\Service\Payment\PaymentProcessorInterface::class);
         $processor
             ->method('pay')
             ->willThrowException(new \Exception('Payment failed'));
 
-        $factory = $this->createMock(PaymentProcessorFactory::class);
+        $factory = $this->createStub(PaymentProcessorFactory::class);
         $factory
             ->method('getProcessor')
             ->with('paypal')
             ->willReturn($processor);
 
-        $resolver = $this->createMock(RequestDtoResolver::class);
+        $resolver = $this->createStub(RequestDtoResolver::class);
         $resolver
             ->method('resolve')
             ->willReturnCallback(function (Request $request, string $dtoClass) {
