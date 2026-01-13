@@ -20,3 +20,14 @@ Content-Type: application/json
   "couponCode": "SALE10AMOUNT",
   "paymentProcessor": "paypal"
 }
+
+### Execute Purchase
+POST http://127.0.0.1:8337/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 1,
+  "taxNumber": "GR123456789",
+  "paymentProcessor": "stripe"
+}

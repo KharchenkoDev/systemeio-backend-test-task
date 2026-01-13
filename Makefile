@@ -36,7 +36,11 @@ install: ## Install dependencies without running the whole application.
 	${DC_RUN} composer install
 
 test: ## Run PHPUnit tests.
-	${DC_RUN} bin/phpunit
+	${DC_RUN} /bin/sh -c "\
+		bin/console doctrine:schema:drop --force --full-database --env=test && \
+		bin/console doctrine:schema:create --env=test && \
+		bin/console doctrine:fixtures:load --no-interaction --env=test && \
+		bin/phpunit"
 
 migrations: ## Make migrations.
 	${DC_RUN} bin/console doctrine:migrations:migrate --no-interaction
