@@ -14,6 +14,7 @@ class AppFixtures extends Fixture
         ['Iphone', '100.00'],
         ['Наушники', '20.00'],
         ['Чехол', '10.00'],
+        ['Dassault Falcon 50', '21150000.00'],
     ];
 
     const COUPONS = [

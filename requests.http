@@ -21,13 +21,26 @@ Content-Type: application/json
   "paymentProcessor": "paypal"
 }
 
-### Execute Purchase
+### Execute Unsuccessfull Purchase via "stripe"
+### (StripePaymentProcessor fails when price less than 100)
 POST http://127.0.0.1:8337/purchase
 Accept: application/json
 Content-Type: application/json
 
 {
-  "product": 1,
+  "product": 2,
   "taxNumber": "GR123456789",
   "paymentProcessor": "stripe"
+}
+
+### Execute Unsuccessfull Purchase via "paypal"
+### (PaypalPaymentProcessor fails when price more than 100000)
+POST http://127.0.0.1:8337/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 4,
+  "taxNumber": "GR123456789",
+  "paymentProcessor": "paypal"
 }

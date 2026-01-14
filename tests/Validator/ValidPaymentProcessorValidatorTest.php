@@ -3,7 +3,7 @@
 // tests/Validator/ValidPaymentProcessorValidatorTest.php
 namespace App\Tests\Validator;
 
-use App\Service\Payment\PaymentProcessorFactory;
+use App\Service\Payment\PaymentProcessorProvider;
 use App\Validator\ValidPaymentProcessor;
 use App\Validator\ValidPaymentProcessorValidator;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +24,7 @@ class ValidPaymentProcessorValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->factory = $this->prophesize(PaymentProcessorFactory::class);
+        $this->factory = $this->prophesize(PaymentProcessorProvider::class);
         $this->context = $this->prophesize(ExecutionContextInterface::class);
         $this->violationBuilder = $this->prophesize(ConstraintViolationBuilderInterface::class);
 

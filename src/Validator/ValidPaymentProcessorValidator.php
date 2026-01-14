@@ -2,7 +2,7 @@
 
 namespace App\Validator;
 
-use App\Service\Payment\PaymentProcessorFactory;
+use App\Service\Payment\PaymentProcessorProvider;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class ValidPaymentProcessorValidator extends ConstraintValidator
 {
     public function __construct(
-        private PaymentProcessorFactory $paymentProcessorFactory
+        private PaymentProcessorProvider $PaymentProcessorProvider
     ) {}
 
     public function validate(mixed $value, Constraint $constraint): void
@@ -23,7 +23,7 @@ class ValidPaymentProcessorValidator extends ConstraintValidator
             return;
         }
 
-        $availableProcessors = $this->paymentProcessorFactory->getAvailableProcessors();
+        $availableProcessors = $this->PaymentProcessorProvider->getAvailableProcessors();
 
         if (!in_array($value, $availableProcessors, true)) {
             $this->context->buildViolation($constraint->message)

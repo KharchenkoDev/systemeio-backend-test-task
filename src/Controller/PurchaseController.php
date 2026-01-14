@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\DTO\PurchaseRequest;
 use App\Exception\BusinessValidationException;
-use App\Service\Payment\PaymentProcessorFactory;
+use App\Service\Payment\PaymentProcessorProvider;
 use App\Service\PriceManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,7 +15,7 @@ final class PurchaseController extends AbstractController
 {
     public function __construct(
         private PriceManager $priceManager,
-        private PaymentProcessorFactory $paymentProcessorFactory,
+        private PaymentProcessorProvider $PaymentProcessorProvider,
     ) {}
 
     #[Route('/purchase', name: 'purchase', methods: ['POST'])]
@@ -25,7 +25,7 @@ final class PurchaseController extends AbstractController
         try {
             $price = $this->priceManager->calculatePrice($dto);
 
-            $processor = $this->paymentProcessorFactory->getProcessor($dto->paymentProcessor);
+            $processor = $this->PaymentProcessorProvider->getProcessor($dto->paymentProcessor);
             $processor->pay($price);
 
             return $this->json([

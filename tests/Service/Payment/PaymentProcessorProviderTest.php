@@ -2,13 +2,13 @@
 
 namespace App\Tests\Service\Payment;
 
-use App\Service\Payment\PaymentProcessorFactory;
+use App\Service\Payment\PaymentProcessorProvider;
 use App\Service\Payment\PaymentProcessorInterface;
 use PHPUnit\Framework\TestCase;
 
-class PaymentProcessorFactoryTest extends TestCase
+class PaymentProcessorProviderTest extends TestCase
 {
-    private PaymentProcessorFactory $factory;
+    private PaymentProcessorProvider $factory;
     private PaymentProcessorInterface $paypalProcessor;
     private PaymentProcessorInterface $stripeProcessor;
 
@@ -24,7 +24,7 @@ class PaymentProcessorFactoryTest extends TestCase
             public static function getName(): string { return 'stripe'; }
         };
 
-        $this->factory = new PaymentProcessorFactory([
+        $this->factory = new PaymentProcessorProvider([
             $this->paypalProcessor,
             $this->stripeProcessor,
         ]);

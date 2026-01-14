@@ -4,7 +4,7 @@ namespace App\Service\Payment;
 
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
-class PaymentProcessorFactory
+class PaymentProcessorProvider
 {
     private array $processors = [];
 
